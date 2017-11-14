@@ -1,7 +1,5 @@
-
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.handshake.ServerHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
@@ -46,6 +44,11 @@ public class ARHideAndSeekServer extends WebSocketServer {
                 room.get(roomID).addPlayer(s);
                 System.out.println(room.get(roomID).showInfo());
                 broadcast(room.get(roomID).showInfo());
+            } else if (s.equals("START")) {
+                room.get(roomID).status = 1;
+                System.out.println(room.get(roomID).showInfo());
+                System.out.println(roomID + s);
+                broadcast(roomID + s);
             } else if( s.startsWith("LEAVE:")) {
                 s = s.replaceFirst("LEAVE:", "");
                 if( room.containsKey(roomID)) {
@@ -53,7 +56,7 @@ public class ARHideAndSeekServer extends WebSocketServer {
                     System.out.println(room.get(roomID).showInfo());
                     broadcast(room.get(roomID).showInfo());
                 }
-            } else if( s.startsWith("EXIT")) {
+            } else if (s.equals("EXIT")) {
                 room.remove(roomID);
                 System.out.println(roomID+s);
                 broadcast(roomID+s);
