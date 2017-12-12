@@ -30,7 +30,7 @@ public class ARHideAndSeekServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket webSocket, String s) {
-        System.out.println(s);
+        System.out.println(s + " length: " + s.length());
         if(s.length()>=10) {
             String roomID = s.substring(0, 10);
             s = s.substring(10);
@@ -49,6 +49,11 @@ public class ARHideAndSeekServer extends WebSocketServer {
                 System.out.println(room.get(roomID).showInfo());
                 System.out.println(roomID + s);
                 broadcast(roomID + s);
+            } else if (s.equals("PLAY")) {
+                room.get(roomID).status = 2;
+                System.out.println(room.get(roomID).showInfo());
+                System.out.println(roomID + s);
+                new GameThread(roomID).start();
             } else if( s.startsWith("LEAVE:")) {
                 s = s.replaceFirst("LEAVE:", "");
                 if( room.containsKey(roomID)) {
