@@ -30,7 +30,7 @@ public class ARHideAndSeekServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket webSocket, String s) {
-        System.out.println(s + " length: " + s.length());
+        System.out.println(s);
         if(s.length()>=10) {
             String roomID = s.substring(0, 10);
             s = s.substring(10);
@@ -46,14 +46,21 @@ public class ARHideAndSeekServer extends WebSocketServer {
                 broadcast(room.get(roomID).showInfo());
             } else if (s.equals("START")) {
                 room.get(roomID).status = 1;
-                System.out.println(room.get(roomID).showInfo());
+                System.out.println(roomID + s);
+                broadcast(roomID + s);
+            } else if (s.startsWith("HIDE")) {
+                System.out.println(roomID + s);
+                broadcast(roomID + s.replace("bench", "keyboard"));
+            } else if (s.startsWith("SEEK") && room.get(roomID).status == 3) {
                 System.out.println(roomID + s);
                 broadcast(roomID + s);
             } else if (s.equals("PLAY")) {
-                room.get(roomID).status = 2;
-                System.out.println(room.get(roomID).showInfo());
-                System.out.println(roomID + s);
-                new GameThread(roomID).start();
+                if (room.get(roomID).checkReady()) {
+                    room.get(roomID).status = 2;
+                    System.out.println(room.get(roomID).showInfo());
+                    System.out.println(roomID + s);
+                    new GameThread(roomID).start();
+                }
             } else if( s.startsWith("LEAVE:")) {
                 s = s.replaceFirst("LEAVE:", "");
                 if( room.containsKey(roomID)) {

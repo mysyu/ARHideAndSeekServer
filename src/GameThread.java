@@ -19,6 +19,7 @@ public class GameThread extends Thread {
             Thread.sleep(1000);
             ARHideAndSeekServer.server.broadcast(roomID + "PLAY:Start");
             System.out.println(roomID + "PLAY:Start");
+            ARHideAndSeekServer.room.get(roomID).status = 3;
             while (ARHideAndSeekServer.room.get(roomID).treasure >= 0) {
                 Thread.sleep(1000);
                 ARHideAndSeekServer.server.broadcast(roomID + "PLAY:" + ARHideAndSeekServer.room.get(roomID).time);
@@ -32,7 +33,7 @@ public class GameThread extends Thread {
             Thread.sleep(1000);
             ARHideAndSeekServer.server.broadcast(roomID + "FINISH");
             System.out.println(roomID + "FINISH");
-            ARHideAndSeekServer.room.get(roomID).status = 3;
+            ARHideAndSeekServer.room.get(roomID).status = 4;
         } catch (Exception e) {
             e.printStackTrace();
         }
