@@ -16,7 +16,7 @@ public class ARHideAndSeekServer extends WebSocketServer {
     }
 
     public ARHideAndSeekServer() {
-        super(new InetSocketAddress("1.34.30.96",666));
+        super(new InetSocketAddress("mysyu.ddns.net", 666));
     }
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
