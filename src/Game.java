@@ -43,15 +43,19 @@ public class Game {
     }
 
     public boolean checkReady() {
-        ready++;
-        int total = 1;
-        if (!teamA.isEmpty()) {
-            total += teamA.split(";").length;
+        if (status == 1) {
+            ready++;
+            int total = 1;
+            if (!teamA.isEmpty()) {
+                total += teamA.split(";").length;
+            }
+            if (!teamB.isEmpty()) {
+                total += teamB.split(";").length;
+            }
+            return ready == total;
+        } else {
+            return false;
         }
-        if (!teamB.isEmpty()) {
-            total += teamB.split(";").length;
-        }
-        return ready == total;
     }
 
     public boolean checkSeek(String s) {
